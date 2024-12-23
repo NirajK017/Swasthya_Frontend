@@ -1,8 +1,20 @@
-# React + Vite
+# Swasthya-Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Swasthya is a healthcare management system that allows doctors to manage their profiles and patients to book appointments. This is the frontend part of the project built using React.
 
-Currently, two official plugins are available:
+## Dependencies
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To set up and run the frontend project, the following dependencies are required:
+
+- **lucide-react**: Icons for the UI.
+- **axios**: HTTP client to make API requests.
+- **react-router-dom**: Routing library for React applications.
+- **date-fns**: A library for working with dates in JavaScript.
+
+To install these dependencies, run the following commands:
+
+```bash
+npm install lucide-react
+npm install axios
+npm install react-router-dom
+npm install date-fns
