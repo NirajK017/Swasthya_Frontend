@@ -11,6 +11,7 @@ import {
   Building2, 
   FlaskConical
 } from 'lucide-react';
+import logo from "../../assets/logo.png"
 
 const Sidebar = () => {
   const menuItems = [
@@ -28,15 +29,7 @@ const Sidebar = () => {
     <div className="w-64 bg-[#2563EB] min-h-screen text-white p-4">
       <div className="flex items-center gap-2 mb-8">
       <div className="text-white">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="w-8 h-8"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
+            <img className='w-auto h-12' src={logo} alt="logo" />
           </div>
         <div className="flex flex-col">
             <span className="text-2xl font-bold">Swasthya</span>
