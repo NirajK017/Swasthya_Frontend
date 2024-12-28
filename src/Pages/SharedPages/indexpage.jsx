@@ -19,6 +19,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="bg-gradient-to-r shadow-xl from-blue-500 to-teal-400 text-white">
           <div className="container mx-auto px-4">
+<<<<<<< HEAD
             <div className="flex flex-col md:flex-row items-center">
               {/* Left Side: Image */}
               <div className="md:w-1/2 mb-8 md:mb-0">
@@ -40,6 +41,18 @@ export default function Home() {
                   <Link to="/get-started">Get Started</Link>
                 </Button>
               </div>
+=======
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-4xl font-bold mb-4">
+                Welcome to HealthCare Hub
+              </h1>
+              <p className="text-xl mb-8">
+                Streamlining healthcare management for better patient care
+              </p>
+              <Button asChild size="lg" href="/get-started">
+                <Link to="/get-started">Get Started</Link>
+              </Button>
+>>>>>>> b48201f076f0baa15cad0d15a9ece170e4ab17fb
             </div>
           </div>
         </section>
