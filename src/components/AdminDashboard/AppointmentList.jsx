@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const AppointmentList = () => {
   const [appointments, setAppointments] = useState([
     {
+      phoneNumber: '9876543210',  // Patient phone number
       patient: 'John Doe',
       date: '2023-12-24',
       time: '10:00 AM',
@@ -12,6 +13,7 @@ const AppointmentList = () => {
       paymentStatus: 'Paid',
     },
     {
+      phoneNumber: '9876543211',  // Patient phone number
       patient: 'Jane Doe',
       date: '2023-12-25',
       time: '02:00 PM',
@@ -20,7 +22,7 @@ const AppointmentList = () => {
       paymentMode: 'Cash',
       paymentStatus: 'Unpaid',
     },
-    // Add more appointments...
+    // Add more appointments here...
   ]);
 
   const handleStatusChange = (index, newStatus) => {
@@ -29,15 +31,38 @@ const AppointmentList = () => {
     setAppointments(updatedAppointments);
   };
 
+  const handlePaymentStatusChange = (index) => {
+    const updatedAppointments = [...appointments];
+    const appointment = updatedAppointments[index];
+    // If the payment mode is Cash and the status is Unpaid, change to Paid
+    if (appointment.paymentMode === 'Cash' && appointment.paymentStatus === 'Unpaid') {
+      appointment.paymentStatus = 'Paid';
+      setAppointments(updatedAppointments);
+    }
+  };
+
   return (
-    <div className="mt-8">
+    <div className="mt-8 p-2">
       <h2 className="text-xl font-semibold mb-4">Current Appointments</h2>
       <div className="bg-white rounded-lg shadow-sm max-h-[400px] overflow-y-auto">
         <table className="min-w-full">
           <thead className="bg-gray-50">
             <tr>
-              {['Patient', 'Date', 'Time', 'Doctor', 'Status', 'Payment Mode', 'Payment Status', 'Action'].map((header) => (
-                <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              {[
+                'Patient',
+                'Phone Number',
+                'Date',
+                'Time',
+                'Doctor',
+                'Status',
+                'Payment Mode',
+                'Payment Status',
+                'Action',
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   {header}
                 </th>
               ))}
@@ -47,6 +72,7 @@ const AppointmentList = () => {
             {appointments.map((appointment, index) => (
               <tr key={index}>
                 <td className="px-6 py-4 whitespace-nowrap">{appointment.patient}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{appointment.phoneNumber}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{appointment.date}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{appointment.time}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{appointment.doctor}</td>
@@ -86,6 +112,7 @@ const AppointmentList = () => {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
+                  {/* Show dropdown for changing status */}
                   <select
                     value={appointment.status}
                     onChange={(e) => handleStatusChange(index, e.target.value)}
@@ -95,6 +122,16 @@ const AppointmentList = () => {
                     <option value="Pending">Pending</option>
                     <option value="Cancelled">Cancelled</option>
                   </select>
+                  
+                  {/* Display "Mark as Paid" only for Cash payment and Unpaid status */}
+                  {appointment.paymentMode === 'Cash' && appointment.paymentStatus === 'Unpaid' && (
+                    <button
+                      onClick={() => handlePaymentStatusChange(index)}
+                      className="text-blue-600 hover:text-blue-800 bg-transparent border-none cursor-pointer mt-2 ml-3"
+                    >
+                      Mark as Paid
+                    </button>
+                  )}
                 </td>
               </tr>
             ))}
