@@ -31,27 +31,27 @@ const Dashboard = () => {
             <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
           </NavLink>
           <NavLink
-            to="/health-records"
-            className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
-            activeClassName="font-bold"
-          >
-            Health Records
-            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
-          </NavLink>
-          <NavLink
-            to="/appointments"
-            className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
-            activeClassName="font-bold"
-          >
-            Appointments
-            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
-          </NavLink>
-          <NavLink
             to="/nearbyhospitals"
             className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
             activeClassName="font-bold"
           >
             Nearby Hospitals
+            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+          </NavLink>
+          <NavLink
+            to="/aboutus"
+            className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
+            activeClassName="font-bold"
+          >
+            About Us
+            <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+          </NavLink>
+          <NavLink
+            to="/faq"
+            className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
+            activeClassName="font-bold"
+          >
+            FAQ
             <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
           </NavLink>
           <NavLink to="/signup" className="w-20 h-10 flex justify-center items-center bg-blue-700 text-white rounded-md hover:bg-blue-800">
