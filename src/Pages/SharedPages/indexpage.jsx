@@ -19,7 +19,7 @@ export default function Home() {
               <p className="text-xl mb-8">
                 Streamlining healthcare management for better patient care
               </p>
-              <Button asChild size="lg">
+              <Button asChild size="lg" href="/get-started">
                 <Link to="/get-started">Get Started</Link>
               </Button>
             </div>
