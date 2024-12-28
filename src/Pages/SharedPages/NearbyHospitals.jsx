@@ -10,6 +10,7 @@ const NearbyHospitals = () => {
   const [error, setError] = useState("");
   const [userLocation, setUserLocation] = useState(null);
   const GEOAPIFY_API_KEY = "45ca7638dadb40cf98135d9df9296a5d";
+
   useEffect(() => {
     const fetchNearbyHospitals = async () => {
       try {
@@ -58,6 +59,7 @@ const NearbyHospitals = () => {
     };
     fetchNearbyHospitals();
   }, []);
+
   return (
     <div>
       <Dashboard />
@@ -71,7 +73,10 @@ const NearbyHospitals = () => {
           ) : (
             <>
               <div className="mb-8">
-                <MapPlaceholder userLocation={userLocation} hospitals={hospitals} />
+                <MapPlaceholder
+                  userLocation={userLocation}
+                  hospitals={hospitals} // Pass the hospitals to MapPlaceholder
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
