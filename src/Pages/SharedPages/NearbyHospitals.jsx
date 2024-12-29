@@ -9,6 +9,7 @@ const NearbyHospitals = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [userLocation, setUserLocation] = useState(null);
+
   const GEOAPIFY_API_KEY = "45ca7638dadb40cf98135d9df9296a5d";
 
   useEffect(() => {
