@@ -46,6 +46,7 @@ const NearbyHospitals = () => {
                 "Unable to retrieve location. Please enable location services."
               );
               setLoading(false);
+              console.log("error: ", err);
             }
           );
         } else {
