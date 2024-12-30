@@ -16,7 +16,7 @@ const HealthRecords = () => {
   ];
 
   return (
-    <div>
+    <div className='p-6'>
       <h2 className="text-2xl font-bold mb-6">Health Records</h2>
       <div className="mb-6">
         <div className="border-b">

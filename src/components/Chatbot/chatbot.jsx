@@ -58,7 +58,7 @@ const Chatbot = () => {
       {isOpen && (
         <div className="fixed bottom-20 right-5 w-[450px] h-[550px] bg-white shadow-lg rounded-lg border border-blue-300 flex flex-col">
           <div className="p-4 bg-blue-600 text-white text-xl rounded-t-lg flex justify-between items-center">
-            <span>Chatbot</span>
+            <span>CareWise</span>
             <button
               onClick={toggleChatbot}
               className="text-xl text-white hover:bg-blue-500 rounded-full p-2"

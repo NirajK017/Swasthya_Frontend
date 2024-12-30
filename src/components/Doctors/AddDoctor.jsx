@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const AddDoctor = () => {
   const [formData, setFormData] = useState({
@@ -11,50 +10,70 @@ const AddDoctor = () => {
     experience: '',
     fees: '',
     about: '',
-    image: null,
-    labReports: null,
+    image: null, // Store the image file here
   });
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.phone || !formData.specialty) {
       setError('Please fill all required fields.');
       return;
+
+      // Call the function passed as prop to update the department data
+      addDoctorToDepartment(formData.department, formData.name);
+
+      // Clear form data
+      setFormData({ name: '', department: '' });
     }
 
-    const data = new FormData();
-    Object.keys(formData).forEach((key) => {
-      data.append(key, formData[key]);
-    });
+    
 
-    try {
-      const response = await axios.post('/api/doctors', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setSuccess('Doctor added successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        specialty: '',
-        degree: '',
-        experience: '',
-        fees: '',
-        about: '',
-        image: null,
-        labReports: null,
-      });
-      setError('');
-    } catch (error) {
-      console.error('Error:', error);
-      setError('Failed to add doctor. Please try again.');
-      setSuccess('');
+    // Create doctor object from form data
+    const newDoctor = {
+      id: new Date().toISOString(), // unique id
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      specialty: formData.specialty,
+      degree: formData.degree,
+      experience: formData.experience,
+      fees: formData.fees,
+      about: formData.about,
+      image: formData.image ? URL.createObjectURL(formData.image) : '', // Handle image preview
+    };
+
+    // Get current doctors from localStorage, or create an empty array if none exist
+    const doctors = JSON.parse(localStorage.getItem('doctors')) || [];
+    doctors.push(newDoctor);
+    
+    // Save updated doctors array to localStorage
+    localStorage.setItem('doctors', JSON.stringify(doctors));
+
+    setSuccess('Doctor added successfully!');
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      specialty: '',
+      degree: '',
+      experience: '',
+      fees: '',
+      about: '',
+      image: null,
+    });
+    setError('');
+  };
+
+  // Handle file input change
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
     }
   };
 
@@ -66,6 +85,7 @@ const AddDoctor = () => {
 
       <div className="bg-white rounded-lg shadow p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Image upload section */}
           <div className="flex justify-center mb-6">
             <div className="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center">
               {formData.image ? (
@@ -78,6 +98,17 @@ const AddDoctor = () => {
                 <span className="text-gray-400 text-xl">DR</span>
               )}
             </div>
+          </div>
+
+          {/* Image upload input */}
+          <div className="flex flex-col mb-6">
+            <label className="text-sm font-medium text-gray-700 mb-2">Upload Doctor's Photo</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="p-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -171,17 +202,6 @@ const AddDoctor = () => {
               value={formData.about}
               onChange={(e) => setFormData({ ...formData, about: e.target.value })}
             ></textarea>
-          </div>
-
-          {/* Lab Reports */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium text-gray-700 mb-2">Upload Lab Reports</label>
-            <input
-              type="file"
-              className="p-3 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              accept="application/pdf, image/*"
-              onChange={(e) => setFormData({ ...formData, labReports: e.target.files[0] })}
-            />
           </div>
 
           <button
