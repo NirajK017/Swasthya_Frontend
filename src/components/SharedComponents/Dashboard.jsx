@@ -1,12 +1,27 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user's login state
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if the user is logged in (example using localStorage)
+    const authToken = localStorage.getItem("authToken");
+    setIsLoggedIn(!!authToken);
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    // Clear user session or authentication token
+    localStorage.removeItem("authToken");
+    setIsLoggedIn(false);
+    navigate("/signup"); // Redirect to the sign-in page
   };
 
   return (
@@ -39,11 +54,11 @@ const Dashboard = () => {
             <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
           </NavLink>
           <NavLink
-            to="/aboutus"
+            to="/Started"
             className="relative group px-4 py-2 text-blue-900 hover:text-blue-600"
             activeClassName="font-bold"
           >
-            About Us
+            Get Started
             <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
           </NavLink>
           <NavLink
@@ -54,9 +69,21 @@ const Dashboard = () => {
             FAQ
             <span className="absolute inset-x-0 bottom-0 h-[2px] bg-blue-600 scale-x-0 group-hover:scale-x-100 transition-transform"></span>
           </NavLink>
-          <NavLink to="/signup" className="w-20 h-10 flex justify-center items-center bg-blue-700 text-white rounded-md hover:bg-blue-800">
-            Signin
-          </NavLink>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="w-20 h-10 flex justify-center items-center bg-red-700 text-white rounded-md hover:bg-red-800"
+            >
+              Logout
+            </button>
+          ) : (
+            <NavLink
+              to="/signup"
+              className="w-20 h-10 flex justify-center items-center bg-blue-700 text-white rounded-md hover:bg-blue-800"
+            >
+              Signin
+            </NavLink>
+          )}
         </nav>
 
         {/* Mobile Menu Toggle */}
@@ -116,12 +143,25 @@ const Dashboard = () => {
               </NavLink>
             </li>
             <li>
-              <button
-                className="block w-full text-left text-blue-900 hover:text-blue-600"
-                onClick={toggleMenu}
-              >
-                Signin
-              </button>
+              {isLoggedIn ? (
+                <button
+                  className="block w-full text-left text-blue-900 hover:text-blue-600"
+                  onClick={() => {
+                    handleLogout();
+                    toggleMenu();
+                  }}
+                >
+                  Logout
+                </button>
+              ) : (
+                <NavLink
+                  to="/signup"
+                  className="block text-blue-900 hover:text-blue-600"
+                  onClick={toggleMenu}
+                >
+                  Signin
+                </NavLink>
+              )}
             </li>
           </ul>
         </div>

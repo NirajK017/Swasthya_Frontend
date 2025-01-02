@@ -45,7 +45,7 @@ export default function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20">
+        <section id="services" className="py-20">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">
               Our Features
@@ -125,7 +125,7 @@ export default function Home() {
         </section>
 
         {/* About Section */}
-        <section className="bg-gradient-to-r from-blue-100 via-white to-blue-100 py-20 relative">
+        <section id="about" className="bg-gradient-to-r from-blue-100 via-white to-blue-100 py-20 relative">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center relative z-10">
               <h2 className="text-4xl font-extrabold mb-6 text-gray-800">

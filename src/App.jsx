@@ -20,6 +20,7 @@ import ErrorPage from "./Pages/SharedPages/errorpage.jsx";
 import NearbyHospitals from "./Pages/SharedPages/NearbyHospitals.jsx";
 import Signup from "../src/components/Login/Signup.jsx";
 import Chatbot from "./components/Chatbot/chatbot.jsx"; // Import the Chatbot component
+import FAQ from "./Pages/SharedPages/FAQ.jsx";
 
 function Layout({ children }) {
   const location = useLocation();
@@ -56,6 +57,7 @@ function App() {
             <Route path="/add-health-record" element={<AddHealthRecord />} />
             <Route path="/add-lab-report" element={<AddLabReport />} />
             <Route path="/departments" element={<DepartmentList />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Layout>
