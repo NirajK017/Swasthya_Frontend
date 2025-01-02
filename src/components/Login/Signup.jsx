@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-import axios from "../../api/axios"; // Assuming axios.js is configured correctly
+import { NavLink, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import axios from "../../api/axios";
 
 export default function AuthPage() {
-  const [authMode, setAuthMode] = useState("signin"); // 'signin' or 'signup'
-  const [userType, setUserType] = useState("user"); // 'user' only for now
-  const [error, setError] = useState(""); // Error handling state
-  const navigate = useNavigate(); // Initialize the navigate function
+  const [authMode, setAuthMode] = useState("signin");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
 
   const toggleAuthMode = () => {
     setAuthMode(authMode === "signin" ? "signup" : "signin");
-    setError(""); // Reset error when toggling auth mode
+    setError("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Clear any previous errors
+    setError("");
 
     const formData = new FormData(event.target);
     const data = {
@@ -28,90 +29,131 @@ export default function AuthPage() {
       if (authMode === "signup") {
         const confirmPassword = formData.get("confirmPassword");
 
-        // Check if passwords match during signup
         if (data.password !== confirmPassword) {
           setError("Passwords do not match.");
           return;
         }
 
-        // Send signup request
         await axios.post("/auth/register", data);
         alert("Registration successful! Please log in.");
         toggleAuthMode();
       } else {
-        // Handle login
         await axios.post("/auth/login", data);
-        alert("Login successful!");
-        // Redirect after successful login
-        navigate("/"); // This will navigate to the home page (or any route you want)
+        navigate("/");
       }
     } catch (error) {
       setError(error.response?.data?.error || "An error occurred");
     }
   };
 
+  const getInitial = (email) => {
+    return email ? email[0].toUpperCase() : "?";
+  };
+
   return (
-    <>
-      <NavLink to="/" className="font-semibold m-2 text-blue-500">
-        Back
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-6 relative">
+      <NavLink
+        to="/"
+        className="absolute top-6 left-6 p-2 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors duration-200"
+      >
+        <ArrowLeft className="w-6 h-6 text-white" />
       </NavLink>
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="w-[350px] bg-white shadow-md rounded-md p-4">
-          <h2 className="text-lg font-bold">
-            {authMode === "signin" ? "Sign In" : "Sign Up"}
+      
+      <div className="w-[400px] bg-white/95 backdrop-blur-sm shadow-xl rounded-lg p-8">
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white text-2xl font-semibold mb-4 shadow-lg">
+            {getInitial(email)}
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">
+            {authMode === "signin" ? "Welcome Back" : "Create Account"}
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 mt-2">
             {authMode === "signin"
-              ? "Enter your credentials to sign in."
-              : "Create a new account."}
+              ? "Sign in to access your account"
+              : "Fill in your details to get started"}
           </p>
-          <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-            <div className="flex justify-between mb-4">
-              <button
-                type="button"
-                onClick={() => setUserType("user")}
-                className={`py-2 px-4 rounded ${
-                  userType === "user" ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                User
-              </button>
-              <button
-                type="button"
-                onClick={() => setUserType("admin")}
-                className={`py-2 px-4 rounded ${
-                  userType === "admin" ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                Admin
-              </button>
-              <button
-                type="button"
-                onClick={() => setUserType("hospital")}
-                className={`py-2 px-4 rounded ${
-                  userType === "hospital" ? "bg-blue-500 text-white" : "bg-gray-200"
-                }`}
-              >
-                Hospital
-              </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {authMode === "signup" && (
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Full Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm"
+                placeholder="John Doe"
+              />
             </div>
+          )}
+          
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm"
+              placeholder="john@example.com"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-            {userType === "user" && <UserForm authMode={authMode} />}
-            {userType === "admin" && <AdminForm authMode={authMode} />}
-            {userType === "hospital" && <HospitalForm authMode={authMode} />}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm"
+              placeholder="••••••••"
+            />
+          </div>
 
-            {error && <p className="text-sm text-red-500">{error}</p>}
+          {authMode === "signup" && (
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                Confirm Password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                required
+                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm"
+                placeholder="••••••••"
+              />
+            </div>
+          )}
 
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 mt-4 rounded"
-            >
-              {authMode === "signin" ? "Sign In" : "Sign Up"}
-            </button>
-          </form>
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+              {error}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+          >
+            {authMode === "signin" ? "Sign In" : "Create Account"}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center">
           <button
             onClick={toggleAuthMode}
-            className="w-full text-blue-500 mt-4 text-sm"
+            className="text-sm text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
           >
             {authMode === "signin"
               ? "Don't have an account? Sign Up"
@@ -119,177 +161,6 @@ export default function AuthPage() {
           </button>
         </div>
       </div>
-    </>
-  );
-}
-
-function UserForm({ authMode }) {
-  return (
-    <div className="space-y-4">
-      {authMode === "signup" && (
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium">
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Your Name"
-            required
-            className="w-full px-4 py-2 border rounded"
-          />
-        </div>
-      )}
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="john@example.com"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      {authMode === "signup" && (
-        <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium">
-            Confirm Password
-          </label>
-          <input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            required
-            className="w-full px-4 py-2 border rounded"
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function AdminForm({ authMode }) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label htmlFor="adminId" className="block text-sm font-medium">
-          Admin ID
-        </label>
-        <input
-          id="adminId"
-          name="adminId"
-          placeholder="ADMIN123"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label htmlFor="adminPassword" className="block text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="adminPassword"
-          name="adminPassword"
-          type="password"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      {authMode === "signup" && (
-        <div>
-          <label
-            htmlFor="adminConfirmPassword"
-            className="block text-sm font-medium"
-          >
-            Confirm Password
-          </label>
-          <input
-            id="adminConfirmPassword"
-            name="adminConfirmPassword"
-            type="password"
-            required
-            className="w-full px-4 py-2 border rounded"
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function HospitalForm({ authMode }) {
-  return (
-    <div className="space-y-4">
-      <div>
-        <label htmlFor="hospitalId" className="block text-sm font-medium">
-          Hospital ID
-        </label>
-        <input
-          id="hospitalId"
-          name="hospitalId"
-          placeholder="HOSP123"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      <div>
-        <label htmlFor="hospitalPassword" className="block text-sm font-medium">
-          Password
-        </label>
-        <input
-          id="hospitalPassword"
-          name="hospitalPassword"
-          type="password"
-          required
-          className="w-full px-4 py-2 border rounded"
-        />
-      </div>
-      {authMode === "signup" && (
-        <>
-          <div>
-            <label
-              htmlFor="hospitalConfirmPassword"
-              className="block text-sm font-medium"
-            >
-              Confirm Password
-            </label>
-            <input
-              id="hospitalConfirmPassword"
-              name="hospitalConfirmPassword"
-              type="password"
-              required
-              className="w-full px-4 py-2 border rounded"
-            />
-          </div>
-          <div>
-            <label htmlFor="hospitalName" className="block text-sm font-medium">
-              Hospital Name
-            </label>
-            <input
-              id="hospitalName"
-              name="hospitalName"
-              placeholder="City General Hospital"
-              required
-              className="w-full px-4 py-2 border rounded"
-            />
-          </div>
-        </>
-      )}
     </div>
   );
 }
