@@ -1,6 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const HospitalCard = ({ name, address, phone }) => {
+  const navigate = useNavigate();
+
+  const navigateToAppointment = () => {
+    navigate("/book-appointment");
+  };
+
   return (
     <div className="border rounded shadow-md p-4">
       <div className="mb-2">
@@ -9,8 +16,11 @@ const HospitalCard = ({ name, address, phone }) => {
       </div>
       <div>
         <p className="mb-2">Phone: {phone}</p>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-          Get Directions
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          onClick={navigateToAppointment}
+        >
+          Book Appointment
         </button>
       </div>
     </div>

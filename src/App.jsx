@@ -21,12 +21,13 @@ import NearbyHospitals from "./Pages/SharedPages/NearbyHospitals.jsx";
 import Signup from "../src/components/Login/Signup.jsx";
 import Chatbot from "./components/Chatbot/chatbot.jsx"; // Import the Chatbot component
 import FAQ from "./Pages/SharedPages/FAQ.jsx";
+import BookAppointment from "./Pages/SharedPages/BookAppointments.jsx";
 
 function Layout({ children }) {
   const location = useLocation();
 
   // Exclude Header and Sidebar for specific routes
-  const excludedRoutes = ["/", "/nearbyhospitals", "/signup"];
+  const excludedRoutes = ["/", "/nearbyhospitals", "/signup","/book-appointment"];
   const isExcluded = excludedRoutes.includes(location.pathname);
 
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="/health-records" element={<HealthRecords />} />
             <Route path="/add-health-record" element={<AddHealthRecord />} />
             <Route path="/add-lab-report" element={<AddLabReport />} />
+            <Route path="/book-appointment" element={<BookAppointment />} />
             <Route path="/departments" element={<DepartmentList />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="*" element={<ErrorPage />} />
