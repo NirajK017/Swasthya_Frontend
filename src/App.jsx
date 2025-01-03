@@ -27,7 +27,7 @@ function Layout({ children }) {
   const location = useLocation();
 
   // Exclude Header and Sidebar for specific routes
-  const excludedRoutes = ["/", "/nearbyhospitals", "/signup","/book-appointment"];
+  const excludedRoutes = ["/", "/nearbyhospitals", "/signup","/book-appointment","/faq"];
   const isExcluded = excludedRoutes.includes(location.pathname);
 
   return (
