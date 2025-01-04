@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Dashboard from '../../components/SharedComponents/Dashboard.jsx'; // Ensure the path is correct
+import Footer from '../../components/SharedComponents/Footer.jsx';       // Ensure the path is correct
 
 const FAQ = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -11,10 +13,11 @@ const FAQ = () => {
     { id: "lifestyle", label: "Lifestyle & Wellness", icon: "🌱" },
     { id: "nutrition", label: "Nutrition", icon: "🥗" },
     { id: "preventive", label: "Preventive Care", icon: "🛡️" },
-    { id: "first-aid", label: "First Aid", icon: "🩹" }
+    { id: "first-aid", label: "First Aid", icon: "🩹" },
   ];
 
   const faqs = [
+    // Add your FAQ objects here (unchanged for brevity)
     { question: "What is Swasthya?", answer: "Swasthya is a health management platform designed to help you keep track of your health records and appointments.", category: "general" },
     { question: "How do I create an account?", answer: "You can create an account by clicking on the 'Sign Up' button on the homepage and filling in the required details.", category: "general" },
     { question: "What is the best way to maintain a healthy weight?", answer: "To maintain a healthy weight, focus on a balanced diet, regular exercise, and adequate sleep.", category: "lifestyle" },
@@ -55,8 +58,8 @@ const FAQ = () => {
     { question: "How can I prevent obesity?", answer: "Focus on a balanced diet, regular exercise, and portion control.", category: "preventive" }
   ];
 
-  const filteredFaqs = faqs.filter((faq) => 
-    selectedCategory === "all" || faq.category === selectedCategory
+  const filteredFaqs = faqs.filter(
+    (faq) => selectedCategory === "all" || faq.category === selectedCategory
   );
 
   const handleFaqClick = (index) => {
@@ -64,86 +67,93 @@ const FAQ = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-gray-50">
-      {/* Header Section */}
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold text-gray-900 mb-6">
-          How can we help you?
-        </h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Explore our comprehensive health and wellness guide to find the answers you need
-        </p>
-      </div>
+    <div>
+      <Dashboard />
+      <div className="min-h-screen flex flex-col">
+        <div className="max-w-5xl mx-auto p-8 bg-gray-50">
+          {/* Header Section */}
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold text-gray-900 mb-6">
+              How can we help you?
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Explore our comprehensive health and wellness guide to find the answers you need
+            </p>
+          </div>
 
-      {/* Categories Section */}
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-12">
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`p-4 rounded-xl transition-all duration-300 flex flex-col items-center gap-2
-              ${selectedCategory === category.id 
-                ? 'bg-blue-500 text-white shadow-lg transform scale-105' 
-                : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow'}`}
-          >
-            <span className="text-2xl">{category.icon}</span>
-            <span className="text-sm font-medium whitespace-nowrap">{category.label}</span>
-          </button>
-        ))}
-      </div>
+          {/* Categories Section */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-12">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                aria-pressed={selectedCategory === category.id}
+                className={`p-4 rounded-xl transition-all duration-300 flex flex-col items-center gap-2
+                  ${selectedCategory === category.id
+                    ? 'bg-blue-500 text-white shadow-lg transform scale-105'
+                    : 'bg-white text-gray-700 hover:bg-gray-100 hover:shadow'}`}
+              >
+                <span className="text-2xl">{category.icon}</span>
+                <span className="text-sm font-medium whitespace-nowrap">{category.label}</span>
+              </button>
+            ))}
+          </div>
 
-      {/* FAQ Items Section */}
-      <div className="space-y-4 max-w-4xl mx-auto">
-        {filteredFaqs.map((faq, index) => (
-          <div
-            key={index}
-            onClick={() => handleFaqClick(index)}
-            className={`bg-white rounded-xl shadow-sm transition-all duration-300 cursor-pointer
-              ${expandedIndex === index ? 'shadow-md ring-2 ring-blue-500' : 'hover:shadow-md'}`}
-          >
-            <div className="p-6">
-              <div className="flex justify-between items-start gap-4">
-                <h3 className="text-xl font-semibold text-gray-900 leading-tight">
-                  {faq.question}
-                </h3>
-                <div
-                  className={`flex-shrink-0 w-6 h-6 transition-transform duration-300
-                    ${expandedIndex === index ? 'transform rotate-180' : ''}`}
-                >
-                  <svg
-                    className="w-6 h-6 text-gray-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+          {/* FAQ Items Section */}
+          <div className="space-y-4 max-w-4xl mx-auto">
+            {filteredFaqs.map((faq, index) => (
+              <div
+                key={index}
+                onClick={() => handleFaqClick(index)}
+                className={`bg-white rounded-xl shadow-sm transition-all duration-300 cursor-pointer
+                  ${expandedIndex === index ? 'shadow-md ring-2 ring-blue-500' : 'hover:shadow-md'}`}
+              >
+                <div className="p-6">
+                  <div className="flex justify-between items-start gap-4">
+                    <h3 className="text-xl font-semibold text-gray-900 leading-tight">
+                      {faq.question}
+                    </h3>
+                    <div
+                      className={`flex-shrink-0 w-6 h-6 transition-transform duration-300
+                        ${expandedIndex === index ? 'transform rotate-180' : ''}`}
+                    >
+                      <svg
+                        className="w-6 h-6 text-gray-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div
+                    className={`mt-4 text-gray-600 transition-all duration-300 overflow-hidden
+                      ${expandedIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
-              <div
-                className={`mt-4 text-gray-600 transition-all duration-300 overflow-hidden
-                  ${expandedIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
-              >
-                {faq.answer}
-              </div>
-            </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      {/* Bottom Section */}
-      <div className="mt-12 text-center">
-        <p className="text-gray-600">
-          Couldn't find what you're looking for? 
-          <a href="#contact" className="text-blue-500 hover:text-blue-600 ml-1 font-medium">
-            Contact our support team
-          </a>
-        </p>
+          {/* Bottom Section */}
+          <div className="mt-12 text-center">
+            <p className="text-gray-600">
+              Couldn't find what you're looking for? 
+              <a href="#contact" className="text-blue-500 hover:text-blue-600 ml-1 font-medium">
+                Contact our support team
+              </a>
+            </p>
+          </div>
+        </div>
+        <Footer />
       </div>
     </div>
   );
